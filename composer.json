@@ -1,0 +1,16 @@
+{
+  "require-dev": {
+    "phpunit/phpunit": "^8.5"
+  },
+  "require": {
+    "ext-pdo": "*",
+    "ext-gd": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Demo\\controllers\\": "controllers",
+      "Demo\\components\\": "components",
+      "Demo\\models\\": "models"
+    }
+  }
+}
