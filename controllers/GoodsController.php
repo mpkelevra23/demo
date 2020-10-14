@@ -24,7 +24,7 @@ class GoodsController extends BaseController
             $title = $good['name'];
             // Выводим
             echo Templater::viewInclude(
-                './views/goods/view.php',
+                '../views/goods/view.php',
                 [
                     'title' => $title,
                     'good' => $good

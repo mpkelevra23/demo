@@ -38,7 +38,7 @@ class CabinetController extends BaseController
 
                 // Выводим
                 echo Templater::viewInclude(
-                    './views/cabinet/index.php',
+                    '../views/cabinet/index.php',
                     [
                         'title' => $title,
                         'user' => $user,

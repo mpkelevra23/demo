@@ -30,7 +30,7 @@ class AdminOrderController extends AdminBase
 
                 // Выводим
                 echo Templater::viewInclude(
-                    './views/admin/order/index.php',
+                    '../views/admin/order/index.php',
                     [
                         'title' => $title,
                         'orderStatus' => $orderStatus,
@@ -82,7 +82,7 @@ class AdminOrderController extends AdminBase
 
                     // Выводим
                     echo Templater::viewInclude(
-                        './views/admin/order/update.php',
+                        '../views/admin/order/update.php',
                         [
                             'title' => $title,
                             'order' => $order,

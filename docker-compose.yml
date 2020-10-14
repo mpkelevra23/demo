@@ -1,9 +1,9 @@
 version: '3'
 
 # Networks
-#networks:
-#  demo-network:
-#    driver: bridge
+networks:
+  demo-network:
+    driver: bridge
 
 # Services
 services:
@@ -17,42 +17,43 @@ services:
     restart: unless-stopped
     tty: true
     volumes:
-    - ./:/var/www/demo:ro
+    - ../:/var/www/demo:rw
+    - ./.docker/nginx/.htpasswd:/etc/nginx/.htpasswd:ro
     - ./.docker/nginx/conf.d/demo.conf:/etc/nginx/conf.d/demo.conf:ro
-#    depends_on:
-#      - php-fpm
-#    networks:
-#      - demo-network
-#  # PHP-FPM service
-#  php-fpm:
-#    build: .docker/php/
-#    container_name: php-fpm
-#    working_dir: /var/www/demo
-#    restart: unless-stopped
-#    tty: true
-#    volumes:
-#    - ./:/var/www/demo
-#    depends_on:
-#      - postgres
-#    networks:
-#      - demo-network
-#  # Postgres service
-#  postgres:
-#    image: postgres:12
-#    container_name: postgres
-#    restart: unless-stopped
-#    tty: true
-#    environment:
-#      POSTGRES_USER: admin
-#      POSTGRES_PASSWORD: gY(^w)C_F5P7b$zy
-#      POSTGRES_DB: demo
-#    ports:
-#      - 5432:5432
-#    volumes:
-#      - ./.docker/postgres/data:/var/lib/postgresql/data
-#      - ./.docker/postgres/dump:/dump
-#    networks:
-#      - demo-network
+    depends_on:
+      - php-fpm
+    networks:
+      - demo-network
+  # PHP-FPM service
+  php-fpm:
+    build: .docker/php/
+    container_name: php-fpm
+    working_dir: /var/www/demo
+    restart: unless-stopped
+    tty: true
+    volumes:
+    - ./:/var/www/demo
+    depends_on:
+      - postgres
+    networks:
+      - demo-network
+  # Postgres service
+  postgres:
+    image: postgres:12
+    container_name: postgres
+    restart: unless-stopped
+    tty: true
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: gY(^w)C_F5P7b#zy
+      POSTGRES_DB: demo
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.docker/postgres/data:/var/lib/postgresql/data:rw
+      - ./.docker/postgres/dump:/dump:ro
+    networks:
+      - demo-network
 #  composer:
 #    image: library/composer:latest
 #    restart: unless-stopped

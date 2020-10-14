@@ -25,7 +25,7 @@ class SiteController extends BaseController
 
         // Выводим
         echo Templater::viewInclude(
-            './views/site/index.php',
+            '../views/site/index.php',
             [
                 'title' => $title,
                 'goods' => $goods

@@ -38,7 +38,7 @@ class OrderController extends BaseController
 
                 // Выводим
                 echo Templater::viewInclude(
-                    './views/order/create.php',
+                    '../views/order/create.php',
                     ['title' => $title]
                 );
                 return true;
@@ -68,7 +68,7 @@ class OrderController extends BaseController
 
             // Выводим
             echo Templater::viewInclude(
-                './views/order/index.php',
+                '../views/order/index.php',
                 [
                     'title' => $title,
                     'orders' => $orders
@@ -103,7 +103,7 @@ class OrderController extends BaseController
 
                 // Выводим
                 echo Templater::viewInclude(
-                    './views/order/view.php',
+                    '../views/order/view.php',
                     [
                         'title' => $title,
                         'orderId' => $orderId,

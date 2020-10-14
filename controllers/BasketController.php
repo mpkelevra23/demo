@@ -33,7 +33,7 @@ class BasketController extends BaseController
 
             // Выводим
             echo Templater::viewInclude(
-                './views/basket/index.php',
+                '../views/basket/index.php',
                 [
                     'title' => $title,
                     'goods' => $goods,

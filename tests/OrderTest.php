@@ -1,7 +1,7 @@
 <?php
 
 // Подключаем автозагрузку классов
-require_once '/var/www/demo.local/app/vendor/autoload.php';
+require_once './vendor/autoload.php';
 
 use Demo\components\Db;
 use Demo\models\Order;

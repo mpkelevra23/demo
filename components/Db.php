@@ -25,7 +25,7 @@ final class Db
     private function __construct()
     {
         // Подключаем конфигурациооный файл
-        $paramsPath = ROOT . '/config/db_params.php';
+        $paramsPath = '/var/www/demo.local/app/config/db_params.php';
         $params = include_once($paramsPath);
 
         // Создаём объект класса PDO

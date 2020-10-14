@@ -30,7 +30,7 @@ class AdminGoodsController extends AdminBase
 
                 // Выводим
                 echo Templater::viewInclude(
-                    './views/admin/goods/index.php',
+                    '../views/admin/goods/index.php',
                     [
                         'title' => $title,
                         'goodsList' => $goodsList
@@ -118,7 +118,7 @@ class AdminGoodsController extends AdminBase
                         }
                     } else {
                         echo Templater::viewInclude(
-                            './views/admin/goods/create.php',
+                            '../views/admin/goods/create.php',
                             [
                                 'title' => $title,
                                 'categoryList' => $categoryList,
@@ -134,7 +134,7 @@ class AdminGoodsController extends AdminBase
                     return true;
                 } else {
                     echo Templater::viewInclude(
-                        './views/admin/goods/create.php',
+                        '../views/admin/goods/create.php',
                         [
                             'title' => $title,
                             'categoryList' => $categoryList,
@@ -249,7 +249,7 @@ class AdminGoodsController extends AdminBase
                         }
                     } else {
                         echo Templater::viewInclude(
-                            './views/admin/goods/update.php',
+                            '../views/admin/goods/update.php',
                             [
                                 'title' => $title,
                                 'categoryList' => $categoryList,
@@ -267,7 +267,7 @@ class AdminGoodsController extends AdminBase
                     return true;
                 } else {
                     echo Templater::viewInclude(
-                        './views/admin/goods/update.php',
+                        '../views/admin/goods/update.php',
                         [
                             'title' => $title,
                             'categoryList' => $categoryList,

@@ -65,7 +65,7 @@ class Router
      */
     private static function getRouts(): array
     {
-        $routesPath = ROOT . '/config/routes.php';
+        $routesPath = '../config/routes.php';
         return include($routesPath);
     }
 }

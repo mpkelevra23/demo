@@ -26,7 +26,7 @@ class AdminController extends AdminBase
 
                 // Выводим
                 echo Templater::viewInclude(
-                    './views/admin/index.php',
+                    '../views/admin/index.php',
                     ['title' => $title]
                 );
                 return true;

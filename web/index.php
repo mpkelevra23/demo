@@ -13,11 +13,8 @@ use Demo\models\User;
 ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
-// Определяем константу ROOT
-define('ROOT', '/var/www/demo.local/app');
-
 // Подключаем автозагрузку классов composer
-require_once ROOT . '/vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 // Стартуем сессию
 session_start();

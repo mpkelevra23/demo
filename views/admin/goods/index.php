@@ -1,4 +1,4 @@
-<?php require_once './views/layouts/admin_header.php'; ?>
+<?php require_once '../views/layouts/admin_header.php'; ?>
 
     <div class="content">
         <span class="caption"><?= $title ?></span>
@@ -57,4 +57,4 @@
         </div>
     </div>
 
-<?php require_once './views/layouts/admin_footer.php'; ?>
+<?php require_once '../views/layouts/admin_footer.php'; ?>

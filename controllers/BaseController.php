@@ -82,7 +82,7 @@ abstract class BaseController
 
         // Выводим
         echo Templater::viewInclude(
-            './views/site/error.php',
+            '../views/site/error.php',
             [
                 'title' => $title,
                 'error' => $error

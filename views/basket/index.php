@@ -1,4 +1,4 @@
-<?php require_once './views/layouts/header.php'; ?>
+<?php require_once '../views/layouts/header.php'; ?>
 
     <div class="content">
         <span class="caption"><?= $title ?></span>
@@ -37,4 +37,4 @@
         </div>
     </div>
 
-<?php require_once './views/layouts/footer.php'; ?>
+<?php require_once '../views/layouts/footer.php'; ?>

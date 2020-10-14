@@ -60,7 +60,7 @@ class UserController extends BaseController
 
         // Выводим
         echo Templater::viewInclude(
-            './views/user/registration.php',
+            '../views/user/registration.php',
             [
                 'title' => $title,
                 'errors' => $errors,
@@ -123,7 +123,7 @@ class UserController extends BaseController
 
         // Выводим
         echo Templater::viewInclude(
-            './views/user/login.php',
+            '../views/user/login.php',
             [
                 'title' => $title,
                 'errors' => $errors,
