@@ -4,9 +4,9 @@
 return [
     'dbms' => 'pgsql',
     'host' => 'localhost',
-    'dbname' => 'admin',
+    'dbname' => 'demo',
     'charset' => 'utf8',
     'port' => '5432',
     'user' => 'admin',
-    'password' => '123456',
+    'password' => 123456
 ];

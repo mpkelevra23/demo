@@ -1,4 +1,9 @@
 {
+  "config": {
+    "github-oauth": {
+      "github.com": "13efc9dd30ed7a7fae6507d891052978537598dc"
+    }
+  },
   "require-dev": {
     "phpunit/phpunit": "*"
   },
