@@ -7,9 +7,10 @@ networks:
 
 # Services
 services:
-  # Nginx service
+  # web service
   web:
-    image: library/nginx:1.19
+#    image: library/nginx:1.19
+    build: .docker/nginx/
     container_name: web
     ports:
       - 80:80
@@ -19,7 +20,7 @@ services:
     volumes:
       - ../:/var/www/demo:rw
       - ./.docker/nginx/.htpasswd:/etc/nginx/.htpasswd:ro
-      - ./.docker/nginx/conf.d/demo.conf:/etc/nginx/conf.d/demo.conf:ro
+      - ./.docker/nginx/conf.d/demo.conf:/etc/nginx/conf.d/demo.conf:rw
     depends_on:
       - php-fpm
     networks:
@@ -28,7 +29,7 @@ services:
   php-fpm:
     build: .docker/php/
     container_name: php-fpm
-    working_dir: /var/www/demo
+    working_dir: /var/www/demo/app
     restart: unless-stopped
     tty: true
     volumes:
@@ -37,7 +38,7 @@ services:
       - db
     networks:
       - demo-network
-  # Postgres service
+  # db service
   db:
     image: library/postgres:13
     container_name: db
@@ -46,7 +47,6 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: demo
     ports:
       - 5432:5432
     volumes:
