@@ -8,8 +8,8 @@ namespace Demo\components;
  */
 class Picture
 {
-    private const ADDRESS = './upload/img/';
-    private const THUMB_ADDRESS = './upload/thumb/';
+    private const ADDRESS = 'upload/img/';
+    private const THUMB_ADDRESS = 'upload/thumb/';
 
     private $imgAddress;
     private $imgThumbAddress;
