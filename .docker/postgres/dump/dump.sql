@@ -1,8 +1,9 @@
+--
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
--- Dumped by pg_dump version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+-- Dumped from database version 13.1 (Debian 13.1-1.pgdg100+1)
+-- Dumped by pg_dump version 13.1 (Debian 13.1-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -15,88 +16,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-ALTER TABLE ONLY demo.user_role
-    DROP CONSTRAINT user_role_users_id_fk;
-ALTER TABLE ONLY demo.user_role
-    DROP CONSTRAINT user_role_role_id_fk;
-ALTER TABLE ONLY demo."order"
-    DROP CONSTRAINT order_users_id_fk;
-ALTER TABLE ONLY demo."order"
-    DROP CONSTRAINT order_order_status_id_fk;
-ALTER TABLE ONLY demo.goods
-    DROP CONSTRAINT goods_categories_id_fk;
-ALTER TABLE ONLY demo.basket
-    DROP CONSTRAINT basket_users_id_fk;
-ALTER TABLE ONLY demo.basket
-    DROP CONSTRAINT basket_order_id_fk;
-ALTER TABLE ONLY demo.basket
-    DROP CONSTRAINT basket_goods_id_fk;
-DROP TRIGGER tr_update_basket ON demo."order";
-DROP TRIGGER tr_add_user_role ON demo.users;
-DROP INDEX demo.users_id_uindex;
-DROP INDEX demo.users_email_uindex;
-DROP INDEX demo.user_role_id_uindex;
-DROP INDEX demo.role_role_name_uindex;
-DROP INDEX demo.role_id_uindex;
-DROP INDEX demo.order_status_id_uindex;
-DROP INDEX demo.order_id_uindex;
-DROP INDEX demo.goods_id_uindex;
-DROP INDEX demo.categories_id_uindex;
-DROP INDEX demo.basket_id_uindex;
-ALTER TABLE ONLY demo.users
-    DROP CONSTRAINT users_pk;
-ALTER TABLE ONLY demo.user_role
-    DROP CONSTRAINT user_role_pk;
-ALTER TABLE ONLY demo.role
-    DROP CONSTRAINT role_pk;
-ALTER TABLE ONLY demo.order_status
-    DROP CONSTRAINT order_status_pk;
-ALTER TABLE ONLY demo."order"
-    DROP CONSTRAINT order_pk;
-ALTER TABLE ONLY demo.goods
-    DROP CONSTRAINT goods_pk;
-ALTER TABLE ONLY demo.categories
-    DROP CONSTRAINT categories_pk;
-ALTER TABLE ONLY demo.basket
-    DROP CONSTRAINT basket_pk;
-ALTER TABLE demo.users
-    ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE demo.user_role
-    ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE demo.role
-    ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE demo.order_status
-    ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE demo."order"
-    ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE demo.goods
-    ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE demo.categories
-    ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE demo.basket
-    ALTER COLUMN id DROP DEFAULT;
-DROP SEQUENCE demo.users_id_seq;
-DROP SEQUENCE demo.user_role_id_seq;
-DROP TABLE demo.user_role;
-DROP SEQUENCE demo.role_id_seq;
-DROP TABLE demo.role;
-DROP SEQUENCE demo.order_status_id_seq;
-DROP VIEW demo.order_list;
-DROP TABLE demo.users;
-DROP VIEW demo.order_info;
-DROP TABLE demo.order_status;
-DROP SEQUENCE demo.order_id_seq;
-DROP TABLE demo."order";
-DROP VIEW demo.goods_list;
-DROP SEQUENCE demo.goods_id_seq;
-DROP TABLE demo.goods;
-DROP SEQUENCE demo.categories_id_seq;
-DROP TABLE demo.categories;
-DROP SEQUENCE demo.basket_id_seq;
-DROP TABLE demo.basket;
-DROP FUNCTION demo.update_basket();
-DROP FUNCTION demo.add_user_role();
-DROP SCHEMA demo;
 --
 -- Name: demo; Type: SCHEMA; Schema: -; Owner: admin
 --
@@ -112,8 +31,7 @@ ALTER SCHEMA demo OWNER TO admin;
 
 CREATE FUNCTION demo.add_user_role() RETURNS trigger
     LANGUAGE plpgsql
-AS
-$$
+    AS $$
 BEGIN
     INSERT INTO demo.user_role (id_user, id_role) VALUES (NEW.id, 1);
     RETURN NEW;
@@ -129,8 +47,7 @@ ALTER FUNCTION demo.add_user_role() OWNER TO admin;
 
 CREATE FUNCTION demo.update_basket() RETURNS trigger
     LANGUAGE plpgsql
-AS
-$$
+    AS $$
 BEGIN
     UPDATE demo.basket SET id_order = NEW.id WHERE id_user = NEW.id_user AND is_in_order = false;
     UPDATE demo.basket SET is_in_order = true WHERE id_order = NEW.id;
@@ -143,25 +60,23 @@ ALTER FUNCTION demo.update_basket() OWNER TO admin;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: basket; Type: TABLE; Schema: demo; Owner: admin
 --
 
-CREATE TABLE demo.basket
-(
-    id          integer               NOT NULL,
-    id_user     integer               NOT NULL,
-    id_good     integer               NOT NULL,
-    price       numeric(10, 2)        NOT NULL,
+CREATE TABLE demo.basket (
+    id integer NOT NULL,
+    id_user integer NOT NULL,
+    id_good integer NOT NULL,
+    price numeric(10,2) NOT NULL,
     is_in_order boolean DEFAULT false NOT NULL,
-    id_order    integer
+    id_order integer
 );
 
 
-ALTER TABLE demo.basket
-    OWNER TO admin;
+ALTER TABLE demo.basket OWNER TO admin;
 
 --
 -- Name: basket_id_seq; Type: SEQUENCE; Schema: demo; Owner: admin
@@ -176,8 +91,7 @@ CREATE SEQUENCE demo.basket_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.basket_id_seq
-    OWNER TO admin;
+ALTER TABLE demo.basket_id_seq OWNER TO admin;
 
 --
 -- Name: basket_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: admin
@@ -190,16 +104,14 @@ ALTER SEQUENCE demo.basket_id_seq OWNED BY demo.basket.id;
 -- Name: categories; Type: TABLE; Schema: demo; Owner: admin
 --
 
-CREATE TABLE demo.categories
-(
-    id     integer           NOT NULL,
+CREATE TABLE demo.categories (
+    id integer NOT NULL,
     status integer,
-    name   character varying NOT NULL
+    name character varying NOT NULL
 );
 
 
-ALTER TABLE demo.categories
-    OWNER TO admin;
+ALTER TABLE demo.categories OWNER TO admin;
 
 --
 -- Name: categories_id_seq; Type: SEQUENCE; Schema: demo; Owner: admin
@@ -214,8 +126,7 @@ CREATE SEQUENCE demo.categories_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.categories_id_seq
-    OWNER TO admin;
+ALTER TABLE demo.categories_id_seq OWNER TO admin;
 
 --
 -- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: admin
@@ -228,21 +139,19 @@ ALTER SEQUENCE demo.categories_id_seq OWNED BY demo.categories.id;
 -- Name: goods; Type: TABLE; Schema: demo; Owner: admin
 --
 
-CREATE TABLE demo.goods
-(
-    id                integer                NOT NULL,
-    name              character varying      NOT NULL,
-    price             numeric(10, 2)         NOT NULL,
-    id_category       integer                NOT NULL,
-    description       character varying(2056),
-    img_address       character varying(256) NOT NULL,
+CREATE TABLE demo.goods (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    price numeric(10,2) NOT NULL,
+    id_category integer NOT NULL,
+    description character varying(2056),
+    img_address character varying(256) NOT NULL,
     img_thumb_address character varying(256) NOT NULL,
-    status            boolean DEFAULT true   NOT NULL
+    status boolean DEFAULT true NOT NULL
 );
 
 
-ALTER TABLE demo.goods
-    OWNER TO admin;
+ALTER TABLE demo.goods OWNER TO admin;
 
 --
 -- Name: goods_id_seq; Type: SEQUENCE; Schema: demo; Owner: admin
@@ -257,8 +166,7 @@ CREATE SEQUENCE demo.goods_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.goods_id_seq
-    OWNER TO admin;
+ALTER TABLE demo.goods_id_seq OWNER TO admin;
 
 --
 -- Name: goods_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: admin
@@ -272,38 +180,35 @@ ALTER SEQUENCE demo.goods_id_seq OWNED BY demo.goods.id;
 --
 
 CREATE VIEW demo.goods_list AS
-SELECT goods.id,
-       goods.name,
-       goods.price,
-       goods.img_thumb_address,
-       goods.img_address,
-       categories.name AS category,
-       goods.status,
-       goods.description
-FROM (demo.goods
-         JOIN demo.categories ON ((goods.id_category = categories.id)))
-ORDER BY goods.id;
+ SELECT goods.id,
+    goods.name,
+    goods.price,
+    goods.img_thumb_address,
+    goods.img_address,
+    categories.name AS category,
+    goods.status,
+    goods.description
+   FROM (demo.goods
+     JOIN demo.categories ON ((goods.id_category = categories.id)))
+  ORDER BY goods.id;
 
 
-ALTER TABLE demo.goods_list
-    OWNER TO admin;
+ALTER TABLE demo.goods_list OWNER TO admin;
 
 --
 -- Name: order; Type: TABLE; Schema: demo; Owner: admin
 --
 
-CREATE TABLE demo."order"
-(
-    id              integer                     NOT NULL,
-    id_user         integer                     NOT NULL,
-    created         timestamp without time zone NOT NULL,
-    id_order_status integer DEFAULT 1           NOT NULL,
-    total_price     numeric(10, 2)              NOT NULL
+CREATE TABLE demo."order" (
+    id integer NOT NULL,
+    id_user integer NOT NULL,
+    created timestamp without time zone NOT NULL,
+    id_order_status integer DEFAULT 1 NOT NULL,
+    total_price numeric(10,2) NOT NULL
 );
 
 
-ALTER TABLE demo."order"
-    OWNER TO admin;
+ALTER TABLE demo."order" OWNER TO admin;
 
 --
 -- Name: order_id_seq; Type: SEQUENCE; Schema: demo; Owner: admin
@@ -318,8 +223,7 @@ CREATE SEQUENCE demo.order_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.order_id_seq
-    OWNER TO admin;
+ALTER TABLE demo.order_id_seq OWNER TO admin;
 
 --
 -- Name: order_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: admin
@@ -332,76 +236,70 @@ ALTER SEQUENCE demo.order_id_seq OWNED BY demo."order".id;
 -- Name: order_status; Type: TABLE; Schema: demo; Owner: admin
 --
 
-CREATE TABLE demo.order_status
-(
-    id   integer               NOT NULL,
+CREATE TABLE demo.order_status (
+    id integer NOT NULL,
     name character varying(50) NOT NULL
 );
 
 
-ALTER TABLE demo.order_status
-    OWNER TO admin;
+ALTER TABLE demo.order_status OWNER TO admin;
 
 --
 -- Name: order_info; Type: VIEW; Schema: demo; Owner: admin
 --
 
 CREATE VIEW demo.order_info AS
-SELECT "order".id_user   AS user_id,
-       "order".id        AS order_id,
-       goods.id          AS goods_id,
-       order_status.id   AS status_id,
-       "order".created,
-       basket.price,
-       order_status.name AS status,
-       goods.name        AS good_name
-FROM (((demo."order"
-    JOIN demo.basket ON (("order".id = basket.id_order)))
-    JOIN demo.goods ON ((basket.id_good = goods.id)))
-         JOIN demo.order_status ON (("order".id_order_status = order_status.id)));
+ SELECT "order".id_user AS user_id,
+    "order".id AS order_id,
+    goods.id AS goods_id,
+    order_status.id AS status_id,
+    "order".created,
+    basket.price,
+    order_status.name AS status,
+    goods.name AS good_name
+   FROM (((demo."order"
+     JOIN demo.basket ON (("order".id = basket.id_order)))
+     JOIN demo.goods ON ((basket.id_good = goods.id)))
+     JOIN demo.order_status ON (("order".id_order_status = order_status.id)));
 
 
-ALTER TABLE demo.order_info
-    OWNER TO admin;
+ALTER TABLE demo.order_info OWNER TO admin;
 
 --
 -- Name: users; Type: TABLE; Schema: demo; Owner: admin
 --
 
-CREATE TABLE demo.users
-(
-    id           integer                NOT NULL,
-    name         character varying(128) NOT NULL,
-    email        character varying(128) NOT NULL,
-    password     character varying(64)  NOT NULL,
+CREATE TABLE demo.users (
+    id integer NOT NULL,
+    name character varying(128) NOT NULL,
+    email character varying(128) NOT NULL,
+    password character varying(64) NOT NULL,
     last_actions character varying(256)
 );
 
 
-ALTER TABLE demo.users
-    OWNER TO admin;
+ALTER TABLE demo.users OWNER TO admin;
 
 --
 -- Name: order_list; Type: VIEW; Schema: demo; Owner: admin
 --
 
 CREATE VIEW demo.order_list AS
-SELECT "order".id,
-       users.id          AS user_id,
-       users.name        AS user_name,
-       users.email       AS user_email,
-       "order".created,
-       "order".total_price,
-       order_status.id   AS status_id,
-       order_status.name AS status
-FROM ((demo."order"
-    JOIN demo.users ON (("order".id_user = users.id)))
-         JOIN demo.order_status ON (("order".id_order_status = order_status.id)))
-ORDER BY "order".id DESC;
+ SELECT "order".id,
+    users.id AS user_id,
+    users.name AS user_name,
+    users.email AS user_email,
+    "order".created,
+    "order".total_price,
+    order_status.id AS status_id,
+    order_status.name AS status
+   FROM ((demo."order"
+     JOIN demo.users ON (("order".id_user = users.id)))
+     JOIN demo.order_status ON (("order".id_order_status = order_status.id)))
+  ORDER BY "order".id DESC;
 
 
-ALTER TABLE demo.order_list
-    OWNER TO admin;
+ALTER TABLE demo.order_list OWNER TO admin;
 
 --
 -- Name: order_status_id_seq; Type: SEQUENCE; Schema: demo; Owner: admin
@@ -416,8 +314,7 @@ CREATE SEQUENCE demo.order_status_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.order_status_id_seq
-    OWNER TO admin;
+ALTER TABLE demo.order_status_id_seq OWNER TO admin;
 
 --
 -- Name: order_status_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: admin
@@ -430,15 +327,13 @@ ALTER SEQUENCE demo.order_status_id_seq OWNED BY demo.order_status.id;
 -- Name: role; Type: TABLE; Schema: demo; Owner: admin
 --
 
-CREATE TABLE demo.role
-(
-    id        integer           NOT NULL,
+CREATE TABLE demo.role (
+    id integer NOT NULL,
     role_name character varying NOT NULL
 );
 
 
-ALTER TABLE demo.role
-    OWNER TO admin;
+ALTER TABLE demo.role OWNER TO admin;
 
 --
 -- Name: role_id_seq; Type: SEQUENCE; Schema: demo; Owner: admin
@@ -453,8 +348,7 @@ CREATE SEQUENCE demo.role_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.role_id_seq
-    OWNER TO admin;
+ALTER TABLE demo.role_id_seq OWNER TO admin;
 
 --
 -- Name: role_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: admin
@@ -467,16 +361,14 @@ ALTER SEQUENCE demo.role_id_seq OWNED BY demo.role.id;
 -- Name: user_role; Type: TABLE; Schema: demo; Owner: admin
 --
 
-CREATE TABLE demo.user_role
-(
-    id      integer NOT NULL,
+CREATE TABLE demo.user_role (
+    id integer NOT NULL,
     id_user integer NOT NULL,
     id_role integer NOT NULL
 );
 
 
-ALTER TABLE demo.user_role
-    OWNER TO admin;
+ALTER TABLE demo.user_role OWNER TO admin;
 
 --
 -- Name: user_role_id_seq; Type: SEQUENCE; Schema: demo; Owner: admin
@@ -491,8 +383,7 @@ CREATE SEQUENCE demo.user_role_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.user_role_id_seq
-    OWNER TO admin;
+ALTER TABLE demo.user_role_id_seq OWNER TO admin;
 
 --
 -- Name: user_role_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: admin
@@ -514,8 +405,7 @@ CREATE SEQUENCE demo.users_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.users_id_seq
-    OWNER TO admin;
+ALTER TABLE demo.users_id_seq OWNER TO admin;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: admin
@@ -528,64 +418,56 @@ ALTER SEQUENCE demo.users_id_seq OWNED BY demo.users.id;
 -- Name: basket id; Type: DEFAULT; Schema: demo; Owner: admin
 --
 
-ALTER TABLE ONLY demo.basket
-    ALTER COLUMN id SET DEFAULT nextval('demo.basket_id_seq'::regclass);
+ALTER TABLE ONLY demo.basket ALTER COLUMN id SET DEFAULT nextval('demo.basket_id_seq'::regclass);
 
 
 --
 -- Name: categories id; Type: DEFAULT; Schema: demo; Owner: admin
 --
 
-ALTER TABLE ONLY demo.categories
-    ALTER COLUMN id SET DEFAULT nextval('demo.categories_id_seq'::regclass);
+ALTER TABLE ONLY demo.categories ALTER COLUMN id SET DEFAULT nextval('demo.categories_id_seq'::regclass);
 
 
 --
 -- Name: goods id; Type: DEFAULT; Schema: demo; Owner: admin
 --
 
-ALTER TABLE ONLY demo.goods
-    ALTER COLUMN id SET DEFAULT nextval('demo.goods_id_seq'::regclass);
+ALTER TABLE ONLY demo.goods ALTER COLUMN id SET DEFAULT nextval('demo.goods_id_seq'::regclass);
 
 
 --
 -- Name: order id; Type: DEFAULT; Schema: demo; Owner: admin
 --
 
-ALTER TABLE ONLY demo."order"
-    ALTER COLUMN id SET DEFAULT nextval('demo.order_id_seq'::regclass);
+ALTER TABLE ONLY demo."order" ALTER COLUMN id SET DEFAULT nextval('demo.order_id_seq'::regclass);
 
 
 --
 -- Name: order_status id; Type: DEFAULT; Schema: demo; Owner: admin
 --
 
-ALTER TABLE ONLY demo.order_status
-    ALTER COLUMN id SET DEFAULT nextval('demo.order_status_id_seq'::regclass);
+ALTER TABLE ONLY demo.order_status ALTER COLUMN id SET DEFAULT nextval('demo.order_status_id_seq'::regclass);
 
 
 --
 -- Name: role id; Type: DEFAULT; Schema: demo; Owner: admin
 --
 
-ALTER TABLE ONLY demo.role
-    ALTER COLUMN id SET DEFAULT nextval('demo.role_id_seq'::regclass);
+ALTER TABLE ONLY demo.role ALTER COLUMN id SET DEFAULT nextval('demo.role_id_seq'::regclass);
 
 
 --
 -- Name: user_role id; Type: DEFAULT; Schema: demo; Owner: admin
 --
 
-ALTER TABLE ONLY demo.user_role
-    ALTER COLUMN id SET DEFAULT nextval('demo.user_role_id_seq'::regclass);
+ALTER TABLE ONLY demo.user_role ALTER COLUMN id SET DEFAULT nextval('demo.user_role_id_seq'::regclass);
 
 
 --
 -- Name: users id; Type: DEFAULT; Schema: demo; Owner: admin
 --
 
-ALTER TABLE ONLY demo.users
-    ALTER COLUMN id SET DEFAULT nextval('demo.users_id_seq'::regclass);
+ALTER TABLE ONLY demo.users ALTER COLUMN id SET DEFAULT nextval('demo.users_id_seq'::regclass);
 
 
 --
@@ -886,22 +768,14 @@ CREATE UNIQUE INDEX users_id_uindex ON demo.users USING btree (id);
 -- Name: users tr_add_user_role; Type: TRIGGER; Schema: demo; Owner: admin
 --
 
-CREATE TRIGGER tr_add_user_role
-    AFTER INSERT
-    ON demo.users
-    FOR EACH ROW
-EXECUTE PROCEDURE demo.add_user_role();
+CREATE TRIGGER tr_add_user_role AFTER INSERT ON demo.users FOR EACH ROW EXECUTE FUNCTION demo.add_user_role();
 
 
 --
 -- Name: order tr_update_basket; Type: TRIGGER; Schema: demo; Owner: admin
 --
 
-CREATE TRIGGER tr_update_basket
-    AFTER INSERT
-    ON demo."order"
-    FOR EACH ROW
-EXECUTE PROCEDURE demo.update_basket();
+CREATE TRIGGER tr_update_basket AFTER INSERT ON demo."order" FOR EACH ROW EXECUTE FUNCTION demo.update_basket();
 
 
 --
@@ -909,7 +783,7 @@ EXECUTE PROCEDURE demo.update_basket();
 --
 
 ALTER TABLE ONLY demo.basket
-    ADD CONSTRAINT basket_goods_id_fk FOREIGN KEY (id_good) REFERENCES demo.goods (id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT basket_goods_id_fk FOREIGN KEY (id_good) REFERENCES demo.goods(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -917,7 +791,7 @@ ALTER TABLE ONLY demo.basket
 --
 
 ALTER TABLE ONLY demo.basket
-    ADD CONSTRAINT basket_order_id_fk FOREIGN KEY (id_order) REFERENCES demo."order" (id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT basket_order_id_fk FOREIGN KEY (id_order) REFERENCES demo."order"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -925,7 +799,7 @@ ALTER TABLE ONLY demo.basket
 --
 
 ALTER TABLE ONLY demo.basket
-    ADD CONSTRAINT basket_users_id_fk FOREIGN KEY (id_user) REFERENCES demo.users (id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT basket_users_id_fk FOREIGN KEY (id_user) REFERENCES demo.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -933,7 +807,7 @@ ALTER TABLE ONLY demo.basket
 --
 
 ALTER TABLE ONLY demo.goods
-    ADD CONSTRAINT goods_categories_id_fk FOREIGN KEY (id_category) REFERENCES demo.categories (id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT goods_categories_id_fk FOREIGN KEY (id_category) REFERENCES demo.categories(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -941,7 +815,7 @@ ALTER TABLE ONLY demo.goods
 --
 
 ALTER TABLE ONLY demo."order"
-    ADD CONSTRAINT order_order_status_id_fk FOREIGN KEY (id_order_status) REFERENCES demo.order_status (id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT order_order_status_id_fk FOREIGN KEY (id_order_status) REFERENCES demo.order_status(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -949,7 +823,7 @@ ALTER TABLE ONLY demo."order"
 --
 
 ALTER TABLE ONLY demo."order"
-    ADD CONSTRAINT order_users_id_fk FOREIGN KEY (id_user) REFERENCES demo.users (id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT order_users_id_fk FOREIGN KEY (id_user) REFERENCES demo.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -957,7 +831,7 @@ ALTER TABLE ONLY demo."order"
 --
 
 ALTER TABLE ONLY demo.user_role
-    ADD CONSTRAINT user_role_role_id_fk FOREIGN KEY (id_role) REFERENCES demo.role (id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT user_role_role_id_fk FOREIGN KEY (id_role) REFERENCES demo.role(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -965,7 +839,7 @@ ALTER TABLE ONLY demo.user_role
 --
 
 ALTER TABLE ONLY demo.user_role
-    ADD CONSTRAINT user_role_users_id_fk FOREIGN KEY (id_user) REFERENCES demo.users (id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT user_role_users_id_fk FOREIGN KEY (id_user) REFERENCES demo.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
