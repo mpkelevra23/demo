@@ -102,7 +102,7 @@ class User
         );
 
         // Получаем id нового пользователя
-        return Db::getInstance()->lastInsertId('admin.demo.users_id_seq');
+        return Db::getInstance()->lastInsertId('demo.demo.users_id_seq');
     }
 
     /**
