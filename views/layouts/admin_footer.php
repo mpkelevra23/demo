@@ -8,8 +8,8 @@
 <script>
     function changeStatus(id) {
         $.ajax({
-            type: "POST",
-            url: "/admin/order/ajaxUpdate",
+            method: "POST",
+            url: "https://mpkelevra23.ru/admin/order/ajaxUpdate/",
             data: {orderStatusParams: id},
         });
     }
