@@ -8,5 +8,5 @@ return [
     'charset' => 'utf8',
     'port' => '5432',
     'user' => 'admin',
-    'password' => '123456',
+    'password' => 'pN8bPJJ2Uhbf5zRw',
 ];
